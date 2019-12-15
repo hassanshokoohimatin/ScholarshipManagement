@@ -3,6 +3,7 @@ package ir.maktab32.java.projects.scholarshipmanagement.features.scholarshipveri
 import ir.maktab32.java.projects.scholarshipmanagement.core.annotation.Service;
 import ir.maktab32.java.projects.scholarshipmanagement.core.config.DatabaseConfig;
 import ir.maktab32.java.projects.scholarshipmanagement.core.share.AuthenticationService;
+import ir.maktab32.java.projects.scholarshipmanagement.features.logmanagement.usecaseimpl.CreateLogUseCaseImpl;
 import ir.maktab32.java.projects.scholarshipmanagement.features.scholarshipverification.usecase.AcceptBySupervisorUseCase;
 import ir.maktab32.java.projects.scholarshipmanagement.model.User;
 
@@ -23,6 +24,7 @@ public class AcceptBySupervisorUseCaseImpl implements AcceptBySupervisorUseCase 
                 preparedStatement.setLong(1, scholarshipId);
                 preparedStatement.executeUpdate();
                 System.out.println("accepted");
+                new CreateLogUseCaseImpl().create(scholarshipId,"AcceptedBySupervisor");
             } catch (ClassNotFoundException e) {
                 e.printStackTrace();
             } catch (SQLException e) {

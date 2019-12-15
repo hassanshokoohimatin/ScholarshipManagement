@@ -1,6 +1,10 @@
 package ir.maktab32.java.projects.scholarshipmanagement;
 
 import ir.maktab32.java.projects.scholarshipmanagement.core.share.AuthenticationService;
+import ir.maktab32.java.projects.scholarshipmanagement.features.dashboard.usecase.DashboardUseCase;
+import ir.maktab32.java.projects.scholarshipmanagement.features.dashboard.usecaseimpl.DashboardUseCaseImpl;
+import ir.maktab32.java.projects.scholarshipmanagement.features.logmanagement.usecase.FindLogUseCase;
+import ir.maktab32.java.projects.scholarshipmanagement.features.logmanagement.usecaseimpl.FindLogUseCaseImpl;
 import ir.maktab32.java.projects.scholarshipmanagement.features.scholarshipverification.usecase.*;
 import ir.maktab32.java.projects.scholarshipmanagement.features.scholarshipverification.usecaseimpl.*;
 import ir.maktab32.java.projects.scholarshipmanagement.features.usermanagement.usecase.LoginUseCase;
@@ -14,13 +18,12 @@ import java.util.Scanner;
 
 public class ScholarshipManagementApplication {
     public static void main(String[] args) {
-
         Scanner scan = new Scanner(System.in);
         int manner = 0;
 
-        while (manner != 7) {
+        while (manner != 9) {
             System.out.println("choose one...\n1.login\n2.logout\n3.Enter as a student\n4.Enter as the supervisor\n" +
-                    "5.Enter as the manager\n6.Enter as an university\n7.exit\n===>>");
+                    "5.Enter as the manager\n6.Enter as an university\n7.Dashboard\n8.Log\n9.exit\n===>>");
             manner = scan.nextInt();
             if (manner == 1) {
                 System.out.print("Enter username...");
@@ -36,15 +39,16 @@ public class ScholarshipManagementApplication {
                 logoutUseCase.logout();
             }
             if (manner == 3) {
-                System.out.println("\n1.list\n2.request");
+                System.out.println("\n1.list\n2.request\n3.dashboard");
                 String command = scan.next();
                 if (command.equals("1")) {
                     FindByStudentUseCase findByStudentUseCase = new FindByStudentUseCaseImpl();
-                    for(Scholarship s : findByStudentUseCase.listScholarships()){
+                    for (Scholarship s : findByStudentUseCase.listScholarships()) {
                         System.out.println(s);
                         System.out.println();
                     }
-                } else if (command.equals("2")) {
+                }
+                if (command.equals("2")) {
                     System.out.print("Name: ");
                     String name = scan.next();
                     System.out.print("Family: ");
@@ -75,6 +79,10 @@ public class ScholarshipManagementApplication {
 
                     RequestByStudentUseCase requestByStudentUseCase = new RequestByStudentUseCaseImpl();
                     requestByStudentUseCase.request(scholarship);
+                }
+                if (command.equals("3")){
+                    DashboardUseCase dashboardUseCase = new DashboardUseCaseImpl();
+                    dashboardUseCase.display();
                 }
             }
             if (manner == 4) {
@@ -128,6 +136,16 @@ public class ScholarshipManagementApplication {
                         System.out.println();
                     }
                 }
+            }
+            if (manner == 7){
+                DashboardUseCase dashboardUseCase = new DashboardUseCaseImpl();
+                dashboardUseCase.display();
+            }
+            if (manner == 8){
+                System.out.println("\nDo you want Log for which Scholarship??? Enter the Id of that...");
+                Long scholarshipId = scan.nextLong();
+                FindLogUseCase findLogUseCase = new FindLogUseCaseImpl();
+                findLogUseCase.listLogs(scholarshipId);
             }
         }
     }

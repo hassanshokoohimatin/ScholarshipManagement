@@ -3,6 +3,7 @@ package ir.maktab32.java.projects.scholarshipmanagement.features.scholarshipveri
 import ir.maktab32.java.projects.scholarshipmanagement.core.annotation.Service;
 import ir.maktab32.java.projects.scholarshipmanagement.core.config.DatabaseConfig;
 import ir.maktab32.java.projects.scholarshipmanagement.core.share.AuthenticationService;
+import ir.maktab32.java.projects.scholarshipmanagement.features.logmanagement.usecaseimpl.CreateLogUseCaseImpl;
 import ir.maktab32.java.projects.scholarshipmanagement.features.scholarshipverification.usecase.RequestByStudentUseCase;
 import ir.maktab32.java.projects.scholarshipmanagement.model.Scholarship;
 import ir.maktab32.java.projects.scholarshipmanagement.model.User;
@@ -39,7 +40,14 @@ public class RequestByStudentUseCaseImpl implements RequestByStudentUseCase {
                 preparedStatement.setLong(13, scholarship.getRequesterId());
                 preparedStatement.execute();
                 ResultSet resultSet = preparedStatement.getGeneratedKeys();
+
+
                 System.out.println("request sent successfully");
+                Long scholarshipId = 0l;
+                if (resultSet.next()){
+                    scholarshipId = resultSet.getLong(1);
+                }
+                new CreateLogUseCaseImpl().create(scholarshipId,"RequestedByStudent");
             }catch (SQLException e){
                 e.printStackTrace();
             }catch (ClassNotFoundException e){
