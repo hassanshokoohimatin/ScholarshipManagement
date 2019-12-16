@@ -151,10 +151,7 @@ public class ScholarshipManagementApplication {
                 System.out.println("\nDo you want Log for which Scholarship??? Enter the Id of that...");
                 Long scholarshipId = scan.nextLong();
                 FindLogUseCase findLogUseCase = new FindLogUseCaseImpl();
-                for (Log l : findLogUseCase.listLogs(scholarshipId)){
-                    System.out.println(l);
-                    System.out.println();
-                }
+                findLogUseCase.listLogs(scholarshipId);
             }
         }
     }
