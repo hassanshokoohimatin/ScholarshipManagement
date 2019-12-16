@@ -158,7 +158,6 @@ public class Scholarship {
                 ", status='" + status + '\'' +
                 ", name='" + name + '\'' +
                 ", family='" + family + '\'' +
-                ", nationalCode='" + nationalCode + '\'' +
                 ", lastUni='" + lastUni + '\'' +
                 ", lastDegree='" + lastDegree + '\'' +
                 ", lastField='" + lastField + '\'' +

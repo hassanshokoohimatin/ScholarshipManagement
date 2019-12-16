@@ -11,6 +11,7 @@ import ir.maktab32.java.projects.scholarshipmanagement.features.usermanagement.u
 import ir.maktab32.java.projects.scholarshipmanagement.features.usermanagement.usecase.LogoutUseCase;
 import ir.maktab32.java.projects.scholarshipmanagement.features.usermanagement.usecaseimpl.LoginUseCaseImpl;
 import ir.maktab32.java.projects.scholarshipmanagement.features.usermanagement.usecaseimpl.LogoutUseCaseImpl;
+import ir.maktab32.java.projects.scholarshipmanagement.model.Log;
 import ir.maktab32.java.projects.scholarshipmanagement.model.Scholarship;
 import ir.maktab32.java.projects.scholarshipmanagement.model.User;
 
@@ -90,9 +91,11 @@ public class ScholarshipManagementApplication {
                 String command = scan.next();
                 if (command.equals("1")) {
                     FindBySupervisorUseCase findBySupervisorUsecase = new FindBySupervisorUseCaseImpl();
-                    System.out.println(findBySupervisorUsecase.listScholarships());
-
-                } else if (command.equals("2")) {
+                    for (Scholarship s : findBySupervisorUsecase.listScholarships()) {
+                        System.out.println(s);
+                        System.out.println();
+                    }
+                    } else if (command.equals("2")) {
                     System.out.print("Which scholarship?");
                     Long scholarshipId = scan.nextLong();
                     AcceptBySupervisorUseCase acceptBySupervisorUseCase = new AcceptBySupervisorUseCaseImpl();
@@ -111,9 +114,12 @@ public class ScholarshipManagementApplication {
                 String command = scan.next();
                 if (command.equals("1")) {
                     FindByManagerUseCase findByManagerUseCase = new FindByManagerUseCaseImpl();
-                    System.out.println(findByManagerUseCase.listScholarships());
+                    for (Scholarship s : findByManagerUseCase.listScholarships()) {
+                        System.out.println(s);
+                        System.out.println();
+                    }
 
-                } else if (command.equals("2")) {
+                    } else if (command.equals("2")) {
                     System.out.print("Which scholarship?");
                     Long scholarshipId = scan.nextLong();
                     AcceptByManagerUseCase acceptByManagerUseCase = new AcceptByManagerUseCaseImpl();
@@ -145,7 +151,10 @@ public class ScholarshipManagementApplication {
                 System.out.println("\nDo you want Log for which Scholarship??? Enter the Id of that...");
                 Long scholarshipId = scan.nextLong();
                 FindLogUseCase findLogUseCase = new FindLogUseCaseImpl();
-                findLogUseCase.listLogs(scholarshipId);
+                for (Log l : findLogUseCase.listLogs(scholarshipId)){
+                    System.out.println(l);
+                    System.out.println();
+                }
             }
         }
     }

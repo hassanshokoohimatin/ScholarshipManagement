@@ -43,11 +43,11 @@ public class RequestByStudentUseCaseImpl implements RequestByStudentUseCase {
 
 
                 System.out.println("request sent successfully");
-                Long scholarshipId = 0l;
+                Long scholarshipIdLog = 0l;
                 if (resultSet.next()){
-                    scholarshipId = resultSet.getLong(1);
+                    scholarshipIdLog = resultSet.getLong(1);
                 }
-                new CreateLogUseCaseImpl().create(scholarshipId,"RequestedByStudent");
+                new CreateLogUseCaseImpl().create(scholarshipIdLog,"RequestedByStudent");
             }catch (SQLException e){
                 e.printStackTrace();
             }catch (ClassNotFoundException e){

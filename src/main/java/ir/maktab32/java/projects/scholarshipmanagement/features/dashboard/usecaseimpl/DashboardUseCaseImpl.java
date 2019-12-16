@@ -18,29 +18,34 @@ public class DashboardUseCaseImpl implements DashboardUseCase {
     public void display() {
 
         User user = AuthenticationService.getInstance().getLoginUser();
-        Map<String, Integer> result = new HashMap<String, Integer>();
-        try {
-            Connection connection = DatabaseConfig.getDatabaseConnection();
-            String sql = "select status, count(id) as countStatus from scholarship group by(status)";
-            if (user.getRole().equals("Student"))
-                sql = "select status, count(id) as countStatus from scholarship where requesterId = ? group by(status)";
-            PreparedStatement preparedStatement = connection.prepareStatement(sql);
-            if (user.getRole().equals("Student"))
-                preparedStatement.setLong(1,user.getId());
-            ResultSet resultSet = preparedStatement.executeQuery();
-            while (resultSet.next()){
-                String status = resultSet.getString("status");
-                int count = resultSet.getInt("countStatus");
-                result.put(status, count);
-            }
+        if (user == null)
+            System.out.println("At first you have to login...\n");
+        else {
+            Map<String, Integer> result = new HashMap<String, Integer>();
+            try {
+                Connection connection = DatabaseConfig.getDatabaseConnection();
+                String sql = "select status, count(id) as countStatus from scholarship group by(status)";
+                if (user.getRole().equals("Student"))
+                    sql = "select status, count(id) as countStatus from scholarship where requesterId = ? group by(status)";
+                PreparedStatement preparedStatement = connection.prepareStatement(sql);
+                if (user.getRole().equals("Student"))
+                    preparedStatement.setLong(1, user.getId());
+                ResultSet resultSet = preparedStatement.executeQuery();
+                while (resultSet.next()) {
+                    String status = resultSet.getString("status");
+                    int count = resultSet.getInt("countStatus");
+                    result.put(status, count);
+                }
 
-            for (String status : result.keySet()){
-                System.out.println("Status: "+status+"\tCount: "+result.get(status));
+                for (String status : result.keySet()) {
+                    System.out.println("Status: " + status + "\tCount: " + result.get(status));
+                }
+            } catch (SQLException e) {
+                e.printStackTrace();
+            } catch (ClassNotFoundException e) {
+                e.printStackTrace();
             }
-        } catch (SQLException e) {
-            e.printStackTrace();
-        } catch (ClassNotFoundException e) {
-            e.printStackTrace();
         }
     }
-    }
+
+}
